@@ -1,0 +1,10 @@
+{
+  "token": "<your token here",
+  "prefix": "!",
+  "ownerID": "<server owner id",
+  "author":"Metkil",
+  "verison": "v0.4.6",
+  "botName": "CoolerBot",
+  "adminID": "<admin role id>",
+  "modID": "<mod role id>"
+}

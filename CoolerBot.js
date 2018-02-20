@@ -18,7 +18,7 @@ client.on('ready', () => {
 		client.user.setUsername(`${config.botName}`);
 		console.log (`Changed username to ${config.botName}`);
 	}
-	client.user.setActivity(`on ${config.verison}.  !help`);
+	client.user.setActivity(`v${config.verison}.  !help`);
 	console.log(`Ready to serve on ${client.guilds.size} servers, for ${client.users.size} users.`);
 });
 
@@ -30,6 +30,12 @@ client.on('warn', (e) => console.warn(e));
 client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+	if (config.restrictToSpecificChannels){
+	    if (config.restrictedChannels.indexOf(message.channel.name) == -1){
+            return;
+        }
+    }
+    
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
 

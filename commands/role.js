@@ -34,8 +34,8 @@ var self = module.exports = {
     timeoutId: null,
 
     queueSheetUpdate(obj){
-        module.exports.queuedObjects.push(obj);
-        module.exports.tryUpdate();
+        self.queuedObjects.push(obj);
+        self.tryUpdate();
     },
 
     tryUpdate(){

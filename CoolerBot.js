@@ -18,7 +18,7 @@ client.on('ready', () => {
 		client.user.setUsername(`${config.botName}`);
 		console.log (`Changed username to ${config.botName}`);
 	}
-	client.user.setActivity(`on ${config.verison}.  !help`);
+	client.user.setActivity(`v${config.verison}.  !help`);
 	console.log(`Ready to serve on ${client.guilds.size} servers, for ${client.users.size} users.`);
 });
 
@@ -29,6 +29,12 @@ client.on('warn', (e) => console.warn(e));
 
 client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	if (config.restrictToSpecificChannels){
+	    if (config.restrictedChannels.indexOf(message.channel.name) == -1){
+            return;
+        }
+    }
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
@@ -60,21 +66,17 @@ client.on('message', message => {
 	const timestamps = cooldowns.get(command.name);
 	const cooldownAmount = (command.cooldown || 3) * 1000;
 
-	if (!timestamps.has(message.author.id)) {
-		timestamps.set(message.author.id, now);
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-	}
-	else {
-		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-		if (now < expirationTime) {
-			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-		}
+	if (timestamps.has(message.author.id)) {
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-		timestamps.set(message.author.id, now);
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+        }
 	}
+
+    timestamps.set(message.author.id, now);
 
 	try {
 		command.execute(message, args);

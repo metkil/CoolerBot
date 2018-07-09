@@ -7,4 +7,7 @@
   "botName": "CoolerBot",
   "adminID": "<admin role id>",
   "modID": "<mod role id>"
+  
+  "restrictToSpecificChannels": false,
+  "restrictedChannels": []
 }

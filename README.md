@@ -36,6 +36,7 @@ But, Node.js and discord.js
 To Do....
 
 * **Zacharie Small** - *Initial work* - [Metkil](https://github.com/Metkil)
+* **Gabriel Kovalechyn** - *Contributor* - [gkovalechyn](https://github.com/gkovalechyn)
 
 ## License
 
